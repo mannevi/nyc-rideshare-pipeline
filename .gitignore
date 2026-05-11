@@ -1,3 +1,4 @@
+venv_spark/
 venv/
 __pycache__/
 *.pyc

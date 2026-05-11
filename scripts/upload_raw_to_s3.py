@@ -53,5 +53,23 @@ def upload_all_raw_files():
     logger.info("All raw files uploaded to S3 raw zone.")
 
 
+def upload_processed_data():
+    logger.info("Uploading processed data to S3 clean zone...")
+
+    processed_path = "data/processed/trips_with_weather.parquet"
+
+    if not os.path.exists(processed_path):
+        logger.error(f"Processed file not found: {processed_path}")
+        return
+
+    upload_to_s3(
+        processed_path,
+        "processed/trips_with_weather.parquet"
+    )
+
+    logger.info("Processed data uploaded to S3 clean zone.")
+
+
 if __name__ == "__main__":
     upload_all_raw_files()
+    upload_processed_data()
