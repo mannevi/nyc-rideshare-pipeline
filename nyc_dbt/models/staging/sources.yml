@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    database: NYC_RIDESHARE_DB
+    schema: RAW
+    tables:
+      - name: trips_with_weather
+        description: "Raw NYC rideshare trips joined with weather data"
+        columns:
+          - name: pickup_date
+            description: "Date of trip pickup"
+          - name: company
+            description: "Uber or Lyft"
+          - name: base_passenger_fare
+            description: "What passenger paid"
+          - name: weather_label
+            description: "Human readable weather condition"

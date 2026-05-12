@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: stg_trips
+    description: "Cleaned NYC rideshare trips with weather"
+    columns:
+      - name: pickup_date
+        tests:
+          - not_null
+      - name: company
+        tests:
+          - not_null
+          - accepted_values:
+              column_name: company
+              values: ['Uber', 'Lyft', 'Other']
+      - name: passenger_fare
+        tests:
+          - not_null
+      - name: trip_miles
+        tests:
+          - not_null
+
