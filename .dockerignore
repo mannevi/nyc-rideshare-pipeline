@@ -1,0 +1,10 @@
+venv/
+venv_spark/
+airflow_env/
+__pycache__/
+*.pyc
+.git/
+logs/
+data/raw/
+screenshots/
+nyc_dbt/

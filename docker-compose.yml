@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  nyc_pipeline:
+    build: .
+    container_name: nyc_rideshare_pipeline
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+      - ./logs:/app/logs
+    environment:
+      - PYTHONPATH=/app
+      - JAVA_HOME=/usr/lib/jvm/default-java
+    command: python -m scripts.process_with_spark
