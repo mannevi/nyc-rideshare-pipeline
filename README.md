@@ -263,7 +263,7 @@ cd nyc_dbt && dbt run && dbt test
 - **February 13** (Friday before Valentine's Day) was the highest revenue day at $2.3M
 - **4am trips** have the highest avg fare at $33.59 — early morning surge pricing
 - **Uber** generated 3x Lyft revenue on peak days
-- **Total February revenue** — ~$53M from 10% sample (~$530M extrapolated)
+- **Total February revenue** — About $53M from 10% sample (~$530M extrapolated)
 - **Cumulative revenue** grew from $1.9M on day 1 to $52.9M by end of February
 
 ---
