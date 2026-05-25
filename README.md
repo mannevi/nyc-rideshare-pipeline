@@ -280,7 +280,9 @@ download_tlc_data → fetch_weather_data → upload_raw_to_s3
 Screenshots of the Airflow UI with all tasks green are in the `screenshots/` folder.
 
 ---
+## 📊 Tableau Analytics Dashboard
 
+![NYC Rideshare Dashboard](screenshots/tableau.png)
 ## 👩‍💻 Author
 
 **Manne Vaishnavi**
