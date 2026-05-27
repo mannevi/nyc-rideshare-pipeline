@@ -219,7 +219,7 @@ nyc_rideshare_pipeline/
 - `mart_daily_metrics` — daily revenue, trips, avg fare by company + weather (materialized as **table**)
 - `mart_weather_impact` — fare and tip analysis by weather condition (materialized as **table**)
 - `mart_hourly_demand` — hourly trip demand by company and weekend flag (materialized as **table**)
-- **4 dbt tests** — `not_null` and `accepted_values` on `pickup_date`, `company`, `passenger_fare`, `trip_miles`
+- **5 dbt tests** — `not_null` and `accepted_values` on `pickup_date`, `company`, `passenger_fare`, `trip_miles`
 
 ![dbt Lineage Graph](screenshots/step4_dbt_lineage.png)
 ![dbt Tests Passing](screenshots/step4_dbt_tests1.png)
