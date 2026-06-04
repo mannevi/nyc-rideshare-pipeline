@@ -1,0 +1,95 @@
+# ============================================================
+# GitHub Actions CI Workflow — NYC Rideshare Pipeline
+# ============================================================
+# WHEN IT RUNS:
+#   - Every push to main branch
+#   - Every pull request targeting main
+#
+# WHAT IT DOES:
+#   1. Sets up Python 3.11
+#   2. Installs dbt-snowflake
+#   3. Creates profiles.yml using GitHub Secrets
+#   4. Runs dbt compile  → validates SQL syntax
+#   5. Runs dbt test     → runs 5 data quality tests on Snowflake
+# ============================================================
+
+name: dbt CI — NYC Rideshare Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  dbt-ci:
+    name: Compile + Test dbt Models
+    runs-on: ubuntu-latest         # GitHub gives us a free Ubuntu machine
+
+    steps:
+
+      # ── Step 1 ────────────────────────────────────────────
+      # Checkout your repo code onto the runner machine
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── Step 2 ────────────────────────────────────────────
+      # Set up Python 3.11 — same version as your Dockerfile
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── Step 3 ────────────────────────────────────────────
+      # Install dbt with the Snowflake adapter
+      # dbt-snowflake includes dbt-core automatically
+      - name: Install dbt-snowflake
+        run: pip install dbt-snowflake
+
+      # ── Step 4 ────────────────────────────────────────────
+      # Create profiles.yml using GitHub Secrets
+      # NEVER hardcode credentials — always use secrets
+      # You will add these secrets in your GitHub repo settings
+      - name: Create dbt profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml << 'PROFILE'
+          nyc_dbt:
+            target: ci
+            outputs:
+              ci:
+                type: snowflake
+                account: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+                user: ${{ secrets.SNOWFLAKE_USER }}
+                password: ${{ secrets.SNOWFLAKE_PASSWORD }}
+                role: ACCOUNTADMIN
+                database: NYC_RIDESHARE_DB
+                warehouse: COMPUTE_WH
+                schema: RAW
+                threads: 1
+                connect_timeout: 30
+          PROFILE
+
+      # ── Step 5 ────────────────────────────────────────────
+      # dbt compile — converts Jinja SQL to pure SQL
+      # Validates all {{ ref() }} and {{ source() }} are correct
+      # Does NOT connect to Snowflake — just validates SQL structure
+      - name: dbt compile
+        working-directory: nyc_dbt
+        run: dbt compile --profiles-dir ~/.dbt
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
+      # ── Step 6 ────────────────────────────────────────────
+      # dbt test — runs your 5 data quality tests on Snowflake:
+      #   - not_null on pickup_date, company, passenger_fare, trip_miles
+      #   - accepted_values on company (Uber, Lyft, Other)
+      - name: dbt test
+        working-directory: nyc_dbt
+        run: dbt test --profiles-dir ~/.dbt
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
