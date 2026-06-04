@@ -2,7 +2,7 @@
 
 > End-to-end production-grade ETL pipeline — processing **19.8M raw NYC trips**  
 > into business-ready Snowflake insights, enriched with live weather data.
-
+![dbt CI](https://github.com/mannevi/nyc-rideshare-pipeline/actions/workflows/dbt_ci.yml/badge.svg)
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
 ![PySpark](https://img.shields.io/badge/PySpark-4.1.1-E25A1C?logo=apachespark&logoColor=white)
 ![Snowflake](https://img.shields.io/badge/Snowflake-Data%20Warehouse-29B5E8?logo=snowflake&logoColor=white)
