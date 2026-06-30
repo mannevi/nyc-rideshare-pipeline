@@ -366,7 +366,6 @@ peak hours, and Uber vs Lyft breakdown across February 2026.
 - [ ] Expand to **multiple months** of TLC data for seasonal trend analysis
 - [ ] Connect **Tableau directly to Snowflake** for live dashboard refresh instead of static export
 - [ ] Add **incremental dbt models** — currently full refresh on every run
-- [ ] Add **GitHub Actions CI/CD** — auto-run dbt tests on every push
 
 ---
 ## 👩‍💻 Author
